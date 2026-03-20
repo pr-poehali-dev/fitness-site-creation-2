@@ -13,7 +13,7 @@ export default function Navbar({ scrolled, menuOpen, setMenuOpen, scrollTo }: Na
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-obsidian/95 backdrop-blur-md border-b border-white/5" : ""}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
         <div className="font-cormorant text-2xl font-bold tracking-widest">
-          <span className="text-white">APEX</span>
+          <span className="text-white">SISNEM</span>
           <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
         </div>
 

@@ -16,7 +16,7 @@ const TRAININGS = [
   { icon: "Flame", title: "Силовые тренировки", desc: "Индивидуальные программы для набора мышечной массы и повышения силовых показателей", tag: "Сила" },
   { icon: "Wind", title: "Кардио & HIIT", desc: "Высокоинтенсивные интервальные тренировки для сжигания жира и выносливости", tag: "Кардио" },
   { icon: "Activity", title: "Функциональный фитнес", desc: "Комплексные упражнения для улучшения координации, гибкости и общей физической формы", tag: "Функционал" },
-  { icon: "Sparkles", title: "Йога & Медитация", desc: "Восстановление тела и разума через практики осознанности и глубокого дыхания", tag: "Баланс" },
+  { icon: "Dumbbell", title: "Кроссфит", desc: "Интенсивные комплексные тренировки для развития силы, скорости и общей физической подготовки", tag: "Кроссфит" },
   { icon: "Zap", title: "Единоборства", desc: "Бокс, ММА и боевые искусства под руководством чемпионов и мастеров спорта", tag: "Бой" },
   { icon: "Heart", title: "Реабилитация", desc: "Специализированные программы восстановления после травм с физиотерапевтами", tag: "Здоровье" },
 ];
@@ -53,12 +53,12 @@ const PLANS = [
 ];
 
 const REVIEWS = [
-  { name: "Дмитрий Р.", role: "Предприниматель", rating: 5, text: "APEX — это не просто фитнес-клуб, это образ жизни. За 8 месяцев я не только привёл себя в форму, но и нашёл команду единомышленников. Уровень сервиса соответствует самым высоким стандартам.", avatar: "ДР" },
+  { name: "Дмитрий Р.", role: "Предприниматель", rating: 5, text: "SISNEM — это не просто фитнес-клуб, это образ жизни. За 8 месяцев я не только привёл себя в форму, но и нашёл команду единомышленников. Уровень сервиса соответствует самым высоким стандартам.", avatar: "ДР" },
   { name: "Мария К.", role: "Топ-менеджер", rating: 5, text: "Наконец-то клуб, где каждая деталь продумана. Тренеры — настоящие профессионалы, оборудование всегда в идеальном состоянии. Мои результаты превзошли все ожидания.", avatar: "МК" },
   { name: "Андрей Т.", role: "Архитектор", rating: 5, text: "Приходил скептически настроенным — уходил убеждённым фанатом. Персональная программа от Александра изменила моё тело и самоощущение за 3 месяца. Рекомендую без оговорок.", avatar: "АТ" },
   { name: "Светлана М.", role: "Врач", rating: 5, text: "Как врач особенно ценю подход к здоровью. Реабилитационная программа помогла восстановиться после травмы быстрее, чем ожидалось. Профессионализм на каждом уровне.", avatar: "СМ" },
   { name: "Виктор Н.", role: "Финансист", rating: 5, text: "Elite-членство полностью оправдывает себя. Персональный менеджер, VIP-раздевалка, гибкий график — это всё, что нужно занятому человеку для поддержания формы.", avatar: "ВН" },
-  { name: "Ольга Б.", role: "Дизайнер", rating: 5, text: "Атмосфера APEX вдохновляет. Красивый интерьер, приятная музыка, мотивированные люди вокруг. Каждая тренировка — это ритуал заботы о себе.", avatar: "ОБ" },
+  { name: "Ольга Б.", role: "Дизайнер", rating: 5, text: "Атмосфера SISNEM вдохновляет. Красивый интерьер, приятная музыка, мотивированные люди вокруг. Каждая тренировка — это ритуал заботы о себе.", avatar: "ОБ" },
 ];
 
 function useScrollReveal() {
@@ -123,7 +123,7 @@ export default function Index() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-obsidian/95 backdrop-blur-md border-b border-white/5" : ""}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
           <div className="font-cormorant text-2xl font-bold tracking-widest">
-            <span className="text-white">APEX</span>
+            <span className="text-white">SISNEM</span>
             <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
           </div>
 
@@ -296,7 +296,7 @@ export default function Index() {
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
                     <div className="text-gold font-cormorant text-8xl font-light opacity-20">A</div>
                     <div className="mt-8 space-y-4 w-full">
-                      {["Силовая зона 800м²", "Кардио-зал", "SPA-комплекс", "Бассейн 25м", "Зал единоборств"].map((item, i) => (
+                      {["Силовая зона 800м²", "Кардио-зал", "SPA-комплекс", "Зал кроссфита", "Зал единоборств"].map((item, i) => (
                         <div key={item} className="flex items-center gap-4 group cursor-default">
                           <div className="text-gold/40 font-cormorant text-lg">{String(i + 1).padStart(2, "0")}</div>
                           <div className="flex-1 h-px bg-white/10 group-hover:bg-gold/30 transition-colors" />
@@ -598,7 +598,7 @@ export default function Index() {
       <footer className="py-12 px-6 lg:px-12 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="font-cormorant text-xl font-light tracking-widest">
-            <span className="text-white">APEX</span>
+            <span className="text-white">SISNEM</span>
             <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
           </div>
           <div className="text-white/20 text-xs font-light tracking-wider">
