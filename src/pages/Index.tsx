@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { label: "Тренировки", href: "#training" },
   { label: "Тренеры", href: "#trainers" },
   { label: "Цены", href: "#pricing" },
+  { label: "Продукция", href: "#products" },
   { label: "Отзывы", href: "#reviews" },
   { label: "Контакты", href: "#contacts" },
 ];
@@ -428,20 +429,6 @@ export default function Index() {
               </div>
             </RevealSection>
             <RevealSection delay={200}>
-              <div className="relative p-10 border border-gold/40 bg-obsidian">
-                <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
-                <div className="text-xs tracking-[0.3em] uppercase mb-4 font-light text-gold">Абонемент</div>
-                <div className="flex items-end gap-2 mb-2">
-                  <span className="font-cormorant text-5xl font-light text-white">1 000</span>
-                  <span className="text-white/30 text-sm mb-2 font-light">₽/мес</span>
-                </div>
-                <p className="text-white/40 text-xs font-light mb-8">Безлимитные тренировки после пробного периода.</p>
-                <button className="w-full bg-gold text-obsidian text-[10px] tracking-[0.2em] uppercase py-4 font-medium hover:bg-gold-light transition-all duration-300">
-                  Выбрать
-                </button>
-              </div>
-            </RevealSection>
-            <RevealSection delay={300}>
               <div className="relative p-10 border border-white/5 bg-obsidian/40">
                 <div className="text-xs tracking-[0.3em] uppercase mb-4 font-light text-white/30">Разовое занятие</div>
                 <div className="flex items-end gap-2 mb-2">
@@ -470,6 +457,43 @@ export default function Index() {
               </div>
             </div>
           </RevealSection>
+        </div>
+      </section>
+
+      {/* PRODUCTS */}
+      <section id="products" className="py-32 px-6 lg:px-12 bg-obsidian-light relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <RevealSection>
+            <div className="text-center mb-20">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">Продукция</span>
+                <div className="w-8 h-px bg-gold/60" />
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light">
+                Спортивное <em className="text-gold">питание</em>
+              </h2>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { icon: "Zap", name: "Протеин", desc: "Высококачественный белок для восстановления мышц и роста. Различные вкусы и составы." },
+              { icon: "Flame", name: "Креатин", desc: "Повышает силу и выносливость, ускоряет восстановление между тренировками." },
+              { icon: "Leaf", name: "БАДы", desc: "Витаминно-минеральные комплексы и добавки для здоровья и энергии." },
+            ].map((product, i) => (
+              <RevealSection key={product.name} delay={i * 100}>
+                <div className="group p-8 border border-white/5 hover:border-gold/20 transition-all duration-500 bg-obsidian/40 hover:bg-obsidian/80 cursor-default">
+                  <div className="w-12 h-12 border border-gold/20 flex items-center justify-center mb-6 group-hover:border-gold/50 transition-colors">
+                    <Icon name={product.icon as any} size={20} className="text-gold/70 group-hover:text-gold transition-colors" />
+                  </div>
+                  <h3 className="font-cormorant text-2xl font-light mb-3 group-hover:text-gold transition-colors">{product.name}</h3>
+                  <p className="text-white/40 text-xs leading-relaxed font-light mb-6">{product.desc}</p>
+                  <div className="text-gold/50 text-xs tracking-widest uppercase font-light">Цена по запросу</div>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
         </div>
       </section>
 
