@@ -95,7 +95,7 @@ export default function PricingProductsReviewsContacts() {
           <RevealSection delay={100}>
             <div className="flex items-center gap-4 mt-16 mb-8">
               <div className="w-8 h-px bg-gold/40" />
-              <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Абонемент (1 человек)</span>
+              <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Абонемент</span>
             </div>
           </RevealSection>
 
