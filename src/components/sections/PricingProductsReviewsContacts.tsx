@@ -104,7 +104,7 @@ export default function PricingProductsReviewsContacts() {
               <div className="relative p-10 border border-gold/20 bg-obsidian/40">
                 <div className="text-xs tracking-[0.3em] uppercase mb-4 font-light text-gold/70">Пробный период</div>
                 <div className="font-cormorant text-5xl font-light text-gold mb-2">Бесплатно</div>
-                <p className="text-white/40 text-xs font-light mb-8">3 первых занятия — без оплаты. Попробуй, прежде чем решить.</p>
+                <p className="text-white/40 text-xs font-light mb-8">1 первое занятие — без оплаты. Попробуй, прежде чем решить.</p>
                 <button className="w-full border border-gold/40 text-gold text-[10px] tracking-[0.2em] uppercase py-4 font-medium hover:bg-gold hover:text-obsidian transition-all duration-300">
                   Записаться
                 </button>
