@@ -234,8 +234,7 @@ export default function Index() {
           >
             {[
               { num: "2 500+", label: "Членов клуба" },
-              { num: "15", label: "Тренеров" },
-              { num: "8", label: "Лет на рынке" },
+              { num: "1", label: "Год на рынке" },
             ].map(s => (
               <div key={s.label} className="text-center">
                 <div className="font-cormorant text-3xl font-light text-gold">{s.num}</div>
@@ -267,7 +266,7 @@ export default function Index() {
                 <em className="text-gold">превосходства</em>
               </h2>
               <p className="text-white/50 leading-relaxed text-sm mb-6 font-light">
-                APEX FITNESS — это не просто спортивный зал. Это пространство, где высокие стандарты встречаются с индивидуальным подходом. Мы создаём среду, в которой каждый участник раскрывает свой максимальный потенциал.
+                SISTEM FITNESS — это не просто спортивный зал. Это пространство, где высокие стандарты встречаются с индивидуальным подходом. Мы создаём среду, в которой каждый участник раскрывает свой максимальный потенциал.
               </p>
               <p className="text-white/40 leading-relaxed text-sm mb-10 font-light">
                 Наша философия основана на трёх принципах: научный подход к тренировкам, персональное внимание к каждому члену клуба и атмосфера, вдохновляющая на результат.
@@ -296,7 +295,7 @@ export default function Index() {
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
                     <div className="text-gold font-cormorant text-8xl font-light opacity-20">A</div>
                     <div className="mt-8 space-y-4 w-full">
-                      {["Силовая зона 800м²", "Кардио-зал", "SPA-комплекс", "Зал кроссфита", "Зал единоборств"].map((item, i) => (
+                      {["Современное оборудование", "Профессиональные тренеры", "Индивидуальный подход", "Комфортная атмосфера", "Гибкий график работы"].map((item, i) => (
                         <div key={item} className="flex items-center gap-4 group cursor-default">
                           <div className="text-gold/40 font-cormorant text-lg">{String(i + 1).padStart(2, "0")}</div>
                           <div className="flex-1 h-px bg-white/10 group-hover:bg-gold/30 transition-colors" />
@@ -370,28 +369,11 @@ export default function Index() {
             </div>
           </RevealSection>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TRAINERS.map((trainer, i) => (
-              <RevealSection key={trainer.name} delay={i * 100}>
-                <div className="group cursor-default">
-                  <div className="aspect-[3/4] bg-obsidian-mid relative overflow-hidden mb-6">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-24 h-24 rounded-full bg-obsidian-soft border border-gold/20 flex items-center justify-center group-hover:border-gold/50 transition-all duration-500">
-                        <span className="font-cormorant text-2xl text-gold/70 group-hover:text-gold transition-colors">{trainer.initials}</span>
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="text-gold text-xs tracking-widest uppercase font-light">{trainer.awards}</div>
-                    </div>
-                    <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/15 transition-all duration-500" />
-                  </div>
-                  <h3 className="font-cormorant text-xl font-light mb-1 group-hover:text-gold transition-colors">{trainer.name}</h3>
-                  <p className="text-white/40 text-xs font-light mb-2">{trainer.role}</p>
-                  <p className="text-gold/50 text-[10px] tracking-widest uppercase">{trainer.exp}</p>
-                </div>
-              </RevealSection>
-            ))}
-          </div>
+          <RevealSection delay={200}>
+            <p className="text-center text-white/40 text-sm font-light max-w-xl mx-auto">
+              Наши тренеры — опытные профессионалы с подтверждёнными сертификатами. Скоро здесь появятся их профили.
+            </p>
+          </RevealSection>
         </div>
       </section>
 
@@ -465,40 +447,10 @@ export default function Index() {
             </div>
           </RevealSection>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {REVIEWS.map((review, i) => (
-              <RevealSection key={review.name} delay={i * 80}>
-                <div className={`p-8 border transition-all duration-700 ${activeReview === i ? "border-gold/25 bg-obsidian-soft" : "border-white/5 bg-obsidian/30"}`}>
-                  <div className="flex mb-4">
-                    {Array.from({ length: review.rating }).map((_, j) => (
-                      <Icon key={j} name="Star" size={12} className="text-gold" />
-                    ))}
-                  </div>
-                  <p className="text-white/50 leading-relaxed mb-8 italic font-cormorant text-base">"{review.text}"</p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-obsidian-soft border border-gold/20 flex items-center justify-center flex-shrink-0">
-                      <span className="font-cormorant text-sm text-gold/70">{review.avatar}</span>
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-white/80">{review.name}</div>
-                      <div className="text-xs text-white/30 font-light">{review.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </RevealSection>
-            ))}
-          </div>
-
-          <RevealSection delay={400}>
-            <div className="flex justify-center gap-2 mt-10">
-              {REVIEWS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveReview(i)}
-                  className={`transition-all duration-300 ${activeReview === i ? "w-8 h-1 bg-gold" : "w-2 h-1 bg-white/20 hover:bg-white/40"}`}
-                />
-              ))}
-            </div>
+          <RevealSection delay={200}>
+            <p className="text-center text-white/40 text-sm font-light max-w-xl mx-auto">
+              Мы только открылись и уже собираем первые отзывы. Станьте одним из первых — запишитесь на пробное занятие.
+            </p>
           </RevealSection>
         </div>
       </section>
@@ -524,9 +476,9 @@ export default function Index() {
 
               <div className="space-y-6">
                 {[
-                  { icon: "MapPin", label: "Адрес", value: "Москва, ул. Тверская, 1, БЦ «Гранд»" },
-                  { icon: "Phone", label: "Телефон", value: "+7 (495) 000-00-00" },
-                  { icon: "Mail", label: "Email", value: "hello@apexfitness.ru" },
+                  { icon: "MapPin", label: "Адрес", value: "г. Балобаново, ул. Энергетиков 3" },
+                  { icon: "Phone", label: "Телефон", value: "+7 (___) ___-__-__" },
+                  { icon: "Mail", label: "Email", value: "hello@sistemfit.ru" },
                   { icon: "Clock", label: "Режим работы", value: "Круглосуточно, 7 дней в неделю" },
                 ].map(item => (
                   <div key={item.label} className="flex items-start gap-4">
@@ -602,7 +554,7 @@ export default function Index() {
             <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
           </div>
           <div className="text-white/20 text-xs font-light tracking-wider">
-            © 2024 APEX FITNESS. Все права защищены.
+            © 2025 SISTEM FITNESS. Все права защищены.
           </div>
           <div className="flex gap-6">
             {["Instagram", "Telegram", "VK"].map(s => (
