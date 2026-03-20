@@ -28,33 +28,20 @@ export default function PricingProductsReviewsContacts() {
             </div>
           </RevealSection>
 
-          <div className="mb-6">
-            <div className="grid grid-cols-4 gap-px bg-white/5 border border-white/5 mb-px">
-              <div className="bg-obsidian-light px-6 py-4 text-[10px] tracking-widest uppercase text-white/30 font-light">Период</div>
-              <div className="bg-obsidian-light px-6 py-4 text-[10px] tracking-widest uppercase text-white/30 font-light text-center">1 человек</div>
-              <div className="bg-obsidian-light px-6 py-4 text-[10px] tracking-widest uppercase text-white/30 font-light text-center">2 человека</div>
-              <div className="bg-obsidian-light px-6 py-4" />
-            </div>
+          <div className="grid md:grid-cols-3 gap-6 mb-6 max-w-4xl">
             {FITNESS_PLANS.map((plan, i) => (
-              <RevealSection key={plan.name} delay={i * 80}>
-                <div className={`grid grid-cols-4 gap-px mb-px ${plan.highlight ? "bg-gold/10" : "bg-white/2"}`}>
-                  <div className={`px-6 py-5 flex items-center border-l ${plan.highlight ? "border-gold/30 bg-obsidian" : "border-white/5 bg-obsidian/60"}`}>
-                    <span className={`text-sm font-light ${plan.highlight ? "text-gold" : "text-white/60"}`}>{plan.name}</span>
-                    {plan.highlight && <span className="ml-3 text-[9px] tracking-widest uppercase bg-gold text-obsidian px-2 py-0.5 font-semibold">Выгодно</span>}
+              <RevealSection key={plan.type + plan.sub} delay={i * 100}>
+                <div className={`relative p-8 border transition-all duration-500 h-full flex flex-col ${plan.highlight ? "border-gold/40 bg-obsidian" : "border-white/5 bg-obsidian/40 hover:border-white/10"}`}>
+                  {plan.highlight && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />}
+                  <div className={`text-[10px] tracking-[0.3em] uppercase mb-1 font-light ${plan.highlight ? "text-gold" : "text-white/30"}`}>{plan.type}</div>
+                  <div className="text-white/40 text-xs font-light mb-6">{plan.sub}</div>
+                  <div className="flex items-end gap-2 mb-8 mt-auto">
+                    <span className="font-cormorant text-4xl font-light text-white">{plan.price}</span>
+                    <span className="text-white/30 text-sm mb-1 font-light">₽/{plan.period}</span>
                   </div>
-                  <div className={`px-6 py-5 text-center border-l border-white/5 ${plan.highlight ? "bg-obsidian" : "bg-obsidian/60"}`}>
-                    <span className="font-cormorant text-2xl font-light text-white">{plan.price1}</span>
-                    <span className="text-white/30 text-xs ml-1">₽</span>
-                  </div>
-                  <div className={`px-6 py-5 text-center border-l border-white/5 ${plan.highlight ? "bg-obsidian" : "bg-obsidian/60"}`}>
-                    <span className="font-cormorant text-2xl font-light text-white">{plan.price2}</span>
-                    <span className="text-white/30 text-xs ml-1">₽</span>
-                  </div>
-                  <div className={`px-6 py-5 border-l border-r ${plan.highlight ? "border-gold/30 bg-obsidian" : "border-white/5 bg-obsidian/60"}`}>
-                    <button className={`w-full text-[10px] tracking-[0.2em] uppercase py-2 font-medium transition-all duration-300 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light" : "border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70"}`}>
-                      Выбрать
-                    </button>
-                  </div>
+                  <button className={`w-full text-[10px] tracking-[0.2em] uppercase py-3 font-medium transition-all duration-300 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light" : "border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70"}`}>
+                    Выбрать
+                  </button>
                 </div>
               </RevealSection>
             ))}

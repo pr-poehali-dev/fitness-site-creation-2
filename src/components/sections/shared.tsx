@@ -29,9 +29,9 @@ export const TRAINERS = [
 ];
 
 export const FITNESS_PLANS = [
-  { name: "1 месяц", price1: "2 500", price2: "5 000", highlight: false },
-  { name: "3 месяца", price1: "4 500", price2: "9 000", highlight: true },
-  { name: "6 месяцев", price1: "6 000", price2: "12 000", highlight: false },
+  { type: "Групповые занятия", sub: "2 человека", price: "14 000", period: "мес", highlight: false },
+  { type: "Групповые занятия", sub: "3 человека", price: "18 000", period: "мес", highlight: false },
+  { type: "Индивидуальные тренировки", sub: "1 человек", price: "8 000", period: "мес", highlight: true },
 ];
 
 export const REVIEWS = [
