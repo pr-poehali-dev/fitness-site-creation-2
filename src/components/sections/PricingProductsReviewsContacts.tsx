@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
-import { RevealSection, FITNESS_PLANS } from "./shared";
+import { RevealSection, FITNESS_PLANS, FITNESS_SINGLE, FITNESS_SUBSCRIPTION } from "./shared";
 
 const PERIODS = [
   { label: "1 месяц", months: 1, discount: 0 },
@@ -89,6 +89,46 @@ export default function PricingProductsReviewsContacts() {
                 </RevealSection>
               );
             })}
+          </div>
+
+          {/* АБОНЕМЕНТ + РАЗОВОЕ */}
+          <RevealSection delay={100}>
+            <div className="flex items-center gap-4 mt-16 mb-8">
+              <div className="w-8 h-px bg-gold/40" />
+              <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Абонемент (1 человек)</span>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mb-2">
+            <RevealSection delay={0}>
+              <div className="relative p-8 border border-white/5 bg-obsidian/40 hover:border-white/10 transition-all duration-500 h-full flex flex-col">
+                <div className="text-[10px] tracking-[0.3em] uppercase mb-1 font-light text-white/30">{FITNESS_SINGLE.label}</div>
+                <div className="text-white/40 text-xs font-light mb-6">Без абонемента</div>
+                <div className="flex items-end gap-1 mt-auto mb-6">
+                  <span className="font-cormorant text-4xl font-light text-white">{FITNESS_SINGLE.price}</span>
+                  <span className="text-white/30 text-sm mb-1 font-light">₽</span>
+                </div>
+                <button className="w-full text-[10px] tracking-[0.2em] uppercase py-3 font-medium border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70 transition-all duration-300">
+                  Записаться
+                </button>
+              </div>
+            </RevealSection>
+            {FITNESS_SUBSCRIPTION.map((s, i) => (
+              <RevealSection key={s.period} delay={(i + 1) * 80}>
+                <div className={`relative p-8 border transition-all duration-500 h-full flex flex-col ${s.highlight ? "border-gold/40 bg-obsidian" : "border-white/5 bg-obsidian/40 hover:border-white/10"}`}>
+                  {s.highlight && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />}
+                  <div className={`text-[10px] tracking-[0.3em] uppercase mb-1 font-light ${s.highlight ? "text-gold" : "text-white/30"}`}>Абонемент</div>
+                  <div className="text-white/40 text-xs font-light mb-6">{s.period}</div>
+                  <div className="flex items-end gap-1 mt-auto mb-6">
+                    <span className="font-cormorant text-4xl font-light text-white">{s.price}</span>
+                    <span className="text-white/30 text-sm mb-1 font-light">₽</span>
+                  </div>
+                  <button className={`w-full text-[10px] tracking-[0.2em] uppercase py-3 font-medium transition-all duration-300 ${s.highlight ? "bg-gold text-obsidian hover:bg-gold-light" : "border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70"}`}>
+                    Выбрать
+                  </button>
+                </div>
+              </RevealSection>
+            ))}
           </div>
 
           {/* ЕДИНОБОРСТВА */}

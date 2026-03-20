@@ -34,6 +34,14 @@ export const FITNESS_PLANS = [
   { type: "Индивидуальные тренировки", sub: "1 человек", price: "8 000", period: "мес", highlight: true },
 ];
 
+export const FITNESS_SINGLE = { price: "450", label: "Разовое занятие" };
+
+export const FITNESS_SUBSCRIPTION = [
+  { period: "1 месяц", price: "2 500", highlight: false },
+  { period: "3 месяца", price: "6 500", highlight: true },
+  { period: "6 месяцев", price: "12 000", highlight: false },
+];
+
 export const REVIEWS = [
   { name: "Дмитрий Р.", role: "Предприниматель", rating: 5, text: "SISTEM — это не просто фитнес-клуб, это образ жизни. За 8 месяцев я не только привёл себя в форму, но и нашёл команду единомышленников. Уровень сервиса соответствует самым высоким стандартам.", avatar: "ДР" },
   { name: "Мария К.", role: "Топ-менеджер", rating: 5, text: "Наконец-то клуб, где каждая деталь продумана. Тренеры — настоящие профессионалы, оборудование всегда в идеальном состоянии. Мои результаты превзошли все ожидания.", avatar: "МК" },
