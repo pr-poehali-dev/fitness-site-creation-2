@@ -28,28 +28,10 @@ const TRAINERS = [
   { name: "Анастасия Климова", role: "Специалист по единоборствам", exp: "11 лет опыта", awards: "КМС по боксу", initials: "АК" },
 ];
 
-const PLANS = [
-  {
-    name: "Standard",
-    price: "8 900",
-    period: "мес",
-    features: ["Доступ в зал 24/7", "2 групповых занятия/нед", "Фитнес-тестирование", "Доступ в раздевалку", "Фитнес-браслет в аренду"],
-    highlight: false,
-  },
-  {
-    name: "Premium",
-    price: "18 900",
-    period: "мес",
-    features: ["Всё из Standard", "Безлимитные групповые занятия", "4 персональных тренировки", "Нутрициолог онлайн", "SPA-зона включена", "Парковка включена"],
-    highlight: true,
-  },
-  {
-    name: "Elite",
-    price: "34 900",
-    period: "мес",
-    features: ["Всё из Premium", "Безлимитные персональные тренировки", "Приоритетное бронирование", "Личный менеджер", "Гостевые визиты (4/мес)", "VIP-раздевалка"],
-    highlight: false,
-  },
+const FITNESS_PLANS = [
+  { name: "1 месяц", price1: "2 500", price2: "5 000", highlight: false },
+  { name: "3 месяца", price1: "4 500", price2: "9 000", highlight: true },
+  { name: "6 месяцев", price1: "6 000", price2: "12 000", highlight: false },
 ];
 
 const REVIEWS = [
@@ -386,39 +368,79 @@ export default function Index() {
             </div>
           </RevealSection>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {PLANS.map((plan, i) => (
-              <RevealSection key={plan.name} delay={i * 100}>
-                <div className={`relative p-10 border transition-all duration-500 ${plan.highlight ? "border-gold/40 bg-obsidian" : "border-white/5 bg-obsidian/40 hover:border-white/10"}`}>
-                  {plan.highlight && (
-                    <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
-                  )}
-                  {plan.highlight && (
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                      <span className="bg-gold text-obsidian text-[10px] tracking-[0.3em] uppercase px-4 py-1.5 font-semibold">Популярный</span>
-                    </div>
-                  )}
-                  <div className="mb-8">
-                    <div className={`text-xs tracking-[0.3em] uppercase mb-4 font-light ${plan.highlight ? "text-gold" : "text-white/30"}`}>{plan.name}</div>
-                    <div className="flex items-end gap-2">
-                      <span className="font-cormorant text-5xl font-light text-white">{plan.price}</span>
-                      <span className="text-white/30 text-sm mb-2 font-light">₽/{plan.period}</span>
-                    </div>
+          {/* FITNESS */}
+          <RevealSection delay={100}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-px bg-gold/40" />
+              <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Фитнес</span>
+            </div>
+          </RevealSection>
+
+          <div className="mb-6">
+            <div className="grid grid-cols-4 gap-px bg-white/5 border border-white/5 mb-px">
+              <div className="bg-obsidian-light px-6 py-4 text-[10px] tracking-widest uppercase text-white/30 font-light">Период</div>
+              <div className="bg-obsidian-light px-6 py-4 text-[10px] tracking-widest uppercase text-white/30 font-light text-center">1 человек</div>
+              <div className="bg-obsidian-light px-6 py-4 text-[10px] tracking-widest uppercase text-white/30 font-light text-center">2 человека</div>
+              <div className="bg-obsidian-light px-6 py-4" />
+            </div>
+            {FITNESS_PLANS.map((plan, i) => (
+              <RevealSection key={plan.name} delay={i * 80}>
+                <div className={`grid grid-cols-4 gap-px mb-px ${plan.highlight ? "bg-gold/10" : "bg-white/2"}`}>
+                  <div className={`px-6 py-5 flex items-center border-l ${plan.highlight ? "border-gold/30 bg-obsidian" : "border-white/5 bg-obsidian/60"}`}>
+                    <span className={`text-sm font-light ${plan.highlight ? "text-gold" : "text-white/60"}`}>{plan.name}</span>
+                    {plan.highlight && <span className="ml-3 text-[9px] tracking-widest uppercase bg-gold text-obsidian px-2 py-0.5 font-semibold">Выгодно</span>}
                   </div>
-                  <div className="space-y-4 mb-10">
-                    {plan.features.map(f => (
-                      <div key={f} className="flex items-start gap-3">
-                        <Icon name="Check" size={14} className={`mt-0.5 flex-shrink-0 ${plan.highlight ? "text-gold" : "text-white/30"}`} />
-                        <span className={`text-xs font-light ${plan.highlight ? "text-white/70" : "text-white/40"}`}>{f}</span>
-                      </div>
-                    ))}
+                  <div className={`px-6 py-5 text-center border-l border-white/5 ${plan.highlight ? "bg-obsidian" : "bg-obsidian/60"}`}>
+                    <span className="font-cormorant text-2xl font-light text-white">{plan.price1}</span>
+                    <span className="text-white/30 text-xs ml-1">₽</span>
                   </div>
-                  <button className={`w-full text-xs tracking-[0.25em] uppercase py-4 font-medium transition-all duration-300 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light hover:shadow-[0_0_30px_rgba(201,168,76,0.4)]" : "border border-white/10 text-white/50 hover:border-gold/30 hover:text-white/80"}`}>
-                    Выбрать план
-                  </button>
+                  <div className={`px-6 py-5 text-center border-l border-white/5 ${plan.highlight ? "bg-obsidian" : "bg-obsidian/60"}`}>
+                    <span className="font-cormorant text-2xl font-light text-white">{plan.price2}</span>
+                    <span className="text-white/30 text-xs ml-1">₽</span>
+                  </div>
+                  <div className={`px-6 py-5 border-l border-r ${plan.highlight ? "border-gold/30 bg-obsidian" : "border-white/5 bg-obsidian/60"}`}>
+                    <button className={`w-full text-[10px] tracking-[0.2em] uppercase py-2 font-medium transition-all duration-300 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light" : "border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70"}`}>
+                      Выбрать
+                    </button>
+                  </div>
                 </div>
               </RevealSection>
             ))}
+          </div>
+
+          {/* ЕДИНОБОРСТВА */}
+          <RevealSection delay={100}>
+            <div className="flex items-center gap-4 mt-16 mb-8">
+              <div className="w-8 h-px bg-gold/40" />
+              <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Единоборства</span>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-2xl">
+            <RevealSection delay={100}>
+              <div className="relative p-10 border border-gold/20 bg-obsidian/40">
+                <div className="text-xs tracking-[0.3em] uppercase mb-4 font-light text-gold/70">Пробный период</div>
+                <div className="font-cormorant text-5xl font-light text-gold mb-2">Бесплатно</div>
+                <p className="text-white/40 text-xs font-light mb-8">3 первых занятия — без оплаты. Попробуй, прежде чем решить.</p>
+                <button className="w-full border border-gold/40 text-gold text-[10px] tracking-[0.2em] uppercase py-4 font-medium hover:bg-gold hover:text-obsidian transition-all duration-300">
+                  Записаться
+                </button>
+              </div>
+            </RevealSection>
+            <RevealSection delay={200}>
+              <div className="relative p-10 border border-gold/40 bg-obsidian">
+                <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+                <div className="text-xs tracking-[0.3em] uppercase mb-4 font-light text-gold">Абонемент</div>
+                <div className="flex items-end gap-2 mb-2">
+                  <span className="font-cormorant text-5xl font-light text-white">1 000</span>
+                  <span className="text-white/30 text-sm mb-2 font-light">₽/мес</span>
+                </div>
+                <p className="text-white/40 text-xs font-light mb-8">Безлимитные тренировки после пробного периода.</p>
+                <button className="w-full bg-gold text-obsidian text-[10px] tracking-[0.2em] uppercase py-4 font-medium hover:bg-gold-light transition-all duration-300">
+                  Выбрать
+                </button>
+              </div>
+            </RevealSection>
           </div>
         </div>
       </section>
