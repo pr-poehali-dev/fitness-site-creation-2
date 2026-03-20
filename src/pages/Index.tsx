@@ -481,6 +481,9 @@ export default function Index() {
               { icon: "Zap", name: "Протеин", desc: "Высококачественный белок для восстановления мышц и роста. Различные вкусы и составы." },
               { icon: "Flame", name: "Креатин", desc: "Повышает силу и выносливость, ускоряет восстановление между тренировками." },
               { icon: "Leaf", name: "БАДы", desc: "Витаминно-минеральные комплексы и добавки для здоровья и энергии." },
+              { icon: "Battery", name: "Предтренировочные комплексы", desc: "Заряд энергии и концентрации перед тренировкой для максимальной отдачи." },
+              { icon: "Droplets", name: "BCAA и аминокислоты", desc: "Защищают мышцы от разрушения, ускоряют восстановление и снижают усталость." },
+              { icon: "Apple", name: "Витамины и омега-3", desc: "Поддержка иммунитета, суставов и общего тонуса организма каждый день." },
             ].map((product, i) => (
               <RevealSection key={product.name} delay={i * 100}>
                 <div className="group p-8 border border-white/5 hover:border-gold/20 transition-all duration-500 bg-obsidian/40 hover:bg-obsidian/80 cursor-default">
