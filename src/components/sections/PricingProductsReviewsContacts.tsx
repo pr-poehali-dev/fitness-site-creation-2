@@ -229,7 +229,7 @@ export default function PricingProductsReviewsContacts() {
               <div className="space-y-6">
                 {[
                   { icon: "MapPin", label: "Адрес", value: "г. Балобаново, ул. Энергетиков 3" },
-                  { icon: "Phone", label: "Телефон", value: "+7 (930) 848-85-95" },
+                  { icon: "Phone", label: "Телефон", value: "+7 (930) 848-85-95", href: "tel:+79308488595" },
                   { icon: "Mail", label: "Email", value: "hello@sistemfit.ru" },
                   { icon: "Clock", label: "Режим работы", value: "Ежедневно с 9:00 до 23:00" },
                 ].map(item => (
@@ -239,7 +239,11 @@ export default function PricingProductsReviewsContacts() {
                     </div>
                     <div>
                       <div className="text-white/30 text-[10px] tracking-widest uppercase mb-1 font-light">{item.label}</div>
-                      <div className="text-white/70 text-sm font-light">{item.value}</div>
+                      {"href" in item ? (
+                        <a href={item.href} className="text-white/70 text-sm font-light hover:text-gold transition-colors">{item.value}</a>
+                      ) : (
+                        <div className="text-white/70 text-sm font-light">{item.value}</div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -302,7 +306,7 @@ export default function PricingProductsReviewsContacts() {
       <footer className="py-12 px-6 lg:px-12 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="font-cormorant text-xl font-light tracking-widest">
-            <span className="text-white">SISNEM</span>
+            <span className="text-white">SISTEM</span>
             <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
           </div>
           <div className="text-white/20 text-xs font-light tracking-wider">
