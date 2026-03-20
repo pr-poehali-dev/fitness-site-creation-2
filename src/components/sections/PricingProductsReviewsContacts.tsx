@@ -1,7 +1,23 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { RevealSection, FITNESS_PLANS } from "./shared";
 
+const PERIODS = [
+  { label: "1 месяц", months: 1, discount: 0 },
+  { label: "3 месяца", months: 3, discount: 10 },
+  { label: "6 месяцев", months: 6, discount: 10 },
+];
+
+function calcPrice(base: string, months: number, discount: number) {
+  const num = parseInt(base.replace(/\s/g, ""), 10);
+  const monthly = Math.round(num * (1 - discount / 100) / 100) * 100;
+  return (monthly * months).toLocaleString("ru-RU");
+}
+
 export default function PricingProductsReviewsContacts() {
+  const [periodIdx, setPeriodIdx] = useState(0);
+  const period = PERIODS[periodIdx];
+
   return (
     <>
       {/* PRICING */}
@@ -22,29 +38,57 @@ export default function PricingProductsReviewsContacts() {
 
           {/* FITNESS */}
           <RevealSection delay={100}>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-8 h-px bg-gold/40" />
-              <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Фитнес</span>
+            <div className="flex flex-wrap items-center justify-between gap-6 mb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-px bg-gold/40" />
+                <span className="text-gold/60 text-xs tracking-[0.4em] uppercase font-light">Фитнес</span>
+              </div>
+              <div className="flex border border-white/10">
+                {PERIODS.map((p, i) => (
+                  <button
+                    key={p.label}
+                    onClick={() => setPeriodIdx(i)}
+                    className={`px-5 py-2.5 text-[10px] tracking-[0.2em] uppercase font-light transition-all duration-300 relative ${periodIdx === i ? "bg-gold text-obsidian font-medium" : "text-white/40 hover:text-white/70"}`}
+                  >
+                    {p.label}
+                    {p.discount > 0 && periodIdx !== i && (
+                      <span className="absolute -top-2 -right-1 text-[8px] bg-gold/20 text-gold px-1 rounded-sm">−{p.discount}%</span>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
           </RevealSection>
 
           <div className="grid md:grid-cols-3 gap-6 mb-6 max-w-4xl">
-            {FITNESS_PLANS.map((plan, i) => (
-              <RevealSection key={plan.type + plan.sub} delay={i * 100}>
-                <div className={`relative p-8 border transition-all duration-500 h-full flex flex-col ${plan.highlight ? "border-gold/40 bg-obsidian" : "border-white/5 bg-obsidian/40 hover:border-white/10"}`}>
-                  {plan.highlight && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />}
-                  <div className={`text-[10px] tracking-[0.3em] uppercase mb-1 font-light ${plan.highlight ? "text-gold" : "text-white/30"}`}>{plan.type}</div>
-                  <div className="text-white/40 text-xs font-light mb-6">{plan.sub}</div>
-                  <div className="flex items-end gap-2 mb-8 mt-auto">
-                    <span className="font-cormorant text-4xl font-light text-white">{plan.price}</span>
-                    <span className="text-white/30 text-sm mb-1 font-light">₽/{plan.period}</span>
+            {FITNESS_PLANS.map((plan, i) => {
+              const total = calcPrice(plan.price, period.months, period.discount);
+              const monthly = calcPrice(plan.price, 1, period.discount);
+              return (
+                <RevealSection key={plan.type + plan.sub} delay={i * 100}>
+                  <div className={`relative p-8 border transition-all duration-500 h-full flex flex-col ${plan.highlight ? "border-gold/40 bg-obsidian" : "border-white/5 bg-obsidian/40 hover:border-white/10"}`}>
+                    {plan.highlight && <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />}
+                    {period.discount > 0 && (
+                      <div className="absolute top-4 right-4 text-[9px] tracking-widest uppercase bg-gold/15 text-gold border border-gold/20 px-2 py-0.5">−{period.discount}%</div>
+                    )}
+                    <div className={`text-[10px] tracking-[0.3em] uppercase mb-1 font-light ${plan.highlight ? "text-gold" : "text-white/30"}`}>{plan.type}</div>
+                    <div className="text-white/40 text-xs font-light mb-6">{plan.sub}</div>
+                    <div className="mt-auto mb-2">
+                      <div className="flex items-end gap-2">
+                        <span className="font-cormorant text-4xl font-light text-white">{total}</span>
+                        <span className="text-white/30 text-sm mb-1 font-light">₽</span>
+                      </div>
+                      {period.months > 1 && (
+                        <div className="text-white/30 text-[10px] font-light mt-1">{monthly} ₽/мес · {period.label}</div>
+                      )}
+                    </div>
+                    <button className={`w-full text-[10px] tracking-[0.2em] uppercase py-3 font-medium transition-all duration-300 mt-6 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light" : "border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70"}`}>
+                      Выбрать
+                    </button>
                   </div>
-                  <button className={`w-full text-[10px] tracking-[0.2em] uppercase py-3 font-medium transition-all duration-300 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light" : "border border-white/10 text-white/40 hover:border-gold/30 hover:text-white/70"}`}>
-                    Выбрать
-                  </button>
-                </div>
-              </RevealSection>
-            ))}
+                </RevealSection>
+              );
+            })}
           </div>
 
           {/* ЕДИНОБОРСТВА */}
