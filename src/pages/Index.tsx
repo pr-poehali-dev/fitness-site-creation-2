@@ -280,7 +280,7 @@ export default function Index() {
                 <div className="aspect-[3/4] bg-obsidian-mid overflow-hidden relative">
                   <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #141414 100%)" }} />
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
-                    <div className="text-gold font-cormorant text-8xl font-light opacity-20">A</div>
+                    <div className="text-gold font-cormorant text-8xl font-light opacity-20">S</div>
                     <div className="mt-8 space-y-4 w-full">
                       {["Современное оборудование", "Профессиональные тренеры", "Индивидуальный подход", "Комфортная атмосфера", "Гибкий график работы"].map((item, i) => (
                         <div key={item} className="flex items-center gap-4 group cursor-default">
