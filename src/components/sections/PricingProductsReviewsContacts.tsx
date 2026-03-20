@@ -229,7 +229,7 @@ export default function PricingProductsReviewsContacts() {
               <div className="space-y-6">
                 {[
                   { icon: "MapPin", label: "Адрес", value: "г. Балобаново, ул. Энергетиков 3" },
-                  { icon: "Phone", label: "Телефон", value: "+7 (___) ___-__-__" },
+                  { icon: "Phone", label: "Телефон", value: "+7 (930) 848-85-95" },
                   { icon: "Mail", label: "Email", value: "hello@sistemfit.ru" },
                   { icon: "Clock", label: "Режим работы", value: "Ежедневно с 9:00 до 23:00" },
                 ].map(item => (
