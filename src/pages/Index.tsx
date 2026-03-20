@@ -209,7 +209,7 @@ export default function Index() {
               className="text-white/50 text-sm tracking-widest uppercase font-light max-w-md mb-12 leading-loose"
               style={{ animation: "fade-up 0.9s ease 0.6s both" }}
             >
-              Элитный фитнес-клуб для тех, кто ценит результат, комфорт и безупречный сервис
+              Фитнес-клуб для тех, кто ценит результат, комфорт и безупречный сервис
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4" style={{ animation: "fade-up 0.9s ease 0.8s both" }}>
@@ -228,20 +228,7 @@ export default function Index() {
             </div>
           </div>
 
-          <div
-            className="grid grid-cols-3 gap-8 mt-24 max-w-xl"
-            style={{ animation: "fade-up 0.9s ease 1s both" }}
-          >
-            {[
-              { num: "2 500+", label: "Членов клуба" },
-              { num: "1", label: "Год на рынке" },
-            ].map(s => (
-              <div key={s.label} className="text-center">
-                <div className="font-cormorant text-3xl font-light text-gold">{s.num}</div>
-                <div className="text-white/40 text-[10px] tracking-widest uppercase mt-1">{s.label}</div>
-              </div>
-            ))}
-          </div>
+          
         </div>
 
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
@@ -370,9 +357,15 @@ export default function Index() {
           </RevealSection>
 
           <RevealSection delay={200}>
-            <p className="text-center text-white/40 text-sm font-light max-w-xl mx-auto">
-              Наши тренеры — опытные профессионалы с подтверждёнными сертификатами. Скоро здесь появятся их профили.
-            </p>
+            <div className="flex justify-center">
+              <div className="group cursor-default text-center max-w-xs">
+                <div className="w-32 h-32 rounded-full bg-obsidian-soft border border-gold/20 flex items-center justify-center mx-auto mb-6 group-hover:border-gold/50 transition-all duration-500">
+                  <span className="font-cormorant text-3xl text-gold/70 group-hover:text-gold transition-colors">ОР</span>
+                </div>
+                <h3 className="font-cormorant text-2xl font-light mb-1 group-hover:text-gold transition-colors">Оганесян Размик Артемович</h3>
+                <p className="text-white/40 text-xs font-light tracking-widest uppercase">Тренер-наставник</p>
+              </div>
+            </div>
           </RevealSection>
         </div>
       </section>
@@ -557,8 +550,11 @@ export default function Index() {
             © 2025 SISTEM FITNESS. Все права защищены.
           </div>
           <div className="flex gap-6">
-            {["Instagram", "Telegram", "VK"].map(s => (
-              <button key={s} className="text-white/20 hover:text-gold text-xs tracking-widest uppercase font-light transition-colors">{s}</button>
+            {[
+              { label: "Instagram", href: "https://instagram.com" },
+              { label: "Telegram", href: "https://t.me" },
+            ].map(s => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-gold text-xs tracking-widest uppercase font-light transition-colors">{s.label}</a>
             ))}
           </div>
         </div>
