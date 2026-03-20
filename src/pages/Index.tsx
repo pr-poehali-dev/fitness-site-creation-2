@@ -441,7 +441,35 @@ export default function Index() {
                 </button>
               </div>
             </RevealSection>
+            <RevealSection delay={300}>
+              <div className="relative p-10 border border-white/5 bg-obsidian/40">
+                <div className="text-xs tracking-[0.3em] uppercase mb-4 font-light text-white/30">Разовое занятие</div>
+                <div className="flex items-end gap-2 mb-2">
+                  <span className="font-cormorant text-5xl font-light text-white">1 000</span>
+                  <span className="text-white/30 text-sm mb-2 font-light">₽/занятие</span>
+                </div>
+                <p className="text-white/40 text-xs font-light mb-8">Одно занятие без обязательств — приходи когда удобно.</p>
+                <button className="w-full border border-white/10 text-white/40 text-[10px] tracking-[0.2em] uppercase py-4 font-medium hover:border-gold/30 hover:text-white/70 transition-all duration-300">
+                  Записаться
+                </button>
+              </div>
+            </RevealSection>
           </div>
+
+          {/* СКИДКИ */}
+          <RevealSection delay={200}>
+            <div className="mt-10 max-w-2xl border border-gold/20 bg-obsidian/40 p-8 flex items-start gap-6">
+              <div className="w-12 h-12 border border-gold/30 flex items-center justify-center flex-shrink-0">
+                <Icon name="Heart" size={18} className="text-gold" />
+              </div>
+              <div>
+                <div className="text-gold text-xs tracking-[0.3em] uppercase font-light mb-2">Социальная скидка — 10%</div>
+                <p className="text-white/50 text-sm font-light leading-relaxed">
+                  Для детей и людей с ограниченными возможностями здоровья — скидка 10% на любую услугу клуба. Уточняйте при записи.
+                </p>
+              </div>
+            </div>
+          </RevealSection>
         </div>
       </section>
 
