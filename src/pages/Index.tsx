@@ -1,14 +1,631 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect, useRef } from "react";
+import Icon from "@/components/ui/icon";
 
-const Index = () => {
+const HERO_IMAGE = "https://cdn.poehali.dev/projects/a9e4e0f0-9701-46eb-8686-81fb82fdd4c5/files/ec510aae-a229-43c8-86b3-bd83df9889bc.jpg";
+
+const NAV_LINKS = [
+  { label: "О клубе", href: "#about" },
+  { label: "Тренировки", href: "#training" },
+  { label: "Тренеры", href: "#trainers" },
+  { label: "Цены", href: "#pricing" },
+  { label: "Отзывы", href: "#reviews" },
+  { label: "Контакты", href: "#contacts" },
+];
+
+const TRAININGS = [
+  { icon: "Flame", title: "Силовые тренировки", desc: "Индивидуальные программы для набора мышечной массы и повышения силовых показателей", tag: "Сила" },
+  { icon: "Wind", title: "Кардио & HIIT", desc: "Высокоинтенсивные интервальные тренировки для сжигания жира и выносливости", tag: "Кардио" },
+  { icon: "Activity", title: "Функциональный фитнес", desc: "Комплексные упражнения для улучшения координации, гибкости и общей физической формы", tag: "Функционал" },
+  { icon: "Sparkles", title: "Йога & Медитация", desc: "Восстановление тела и разума через практики осознанности и глубокого дыхания", tag: "Баланс" },
+  { icon: "Zap", title: "Единоборства", desc: "Бокс, ММА и боевые искусства под руководством чемпионов и мастеров спорта", tag: "Бой" },
+  { icon: "Heart", title: "Реабилитация", desc: "Специализированные программы восстановления после травм с физиотерапевтами", tag: "Здоровье" },
+];
+
+const TRAINERS = [
+  { name: "Александр Волков", role: "Мастер силовых тренировок", exp: "12 лет опыта", awards: "Чемпион России 2019", initials: "АВ" },
+  { name: "Елена Соколова", role: "Эксперт по йоге и реабилитации", exp: "9 лет опыта", awards: "Сертификат RYT-500", initials: "ЕС" },
+  { name: "Михаил Дорошенко", role: "Тренер по HIIT и кардио", exp: "7 лет опыта", awards: "NASM Certified CPT", initials: "МД" },
+  { name: "Анастасия Климова", role: "Специалист по единоборствам", exp: "11 лет опыта", awards: "КМС по боксу", initials: "АК" },
+];
+
+const PLANS = [
+  {
+    name: "Standard",
+    price: "8 900",
+    period: "мес",
+    features: ["Доступ в зал 24/7", "2 групповых занятия/нед", "Фитнес-тестирование", "Доступ в раздевалку", "Фитнес-браслет в аренду"],
+    highlight: false,
+  },
+  {
+    name: "Premium",
+    price: "18 900",
+    period: "мес",
+    features: ["Всё из Standard", "Безлимитные групповые занятия", "4 персональных тренировки", "Нутрициолог онлайн", "SPA-зона включена", "Парковка включена"],
+    highlight: true,
+  },
+  {
+    name: "Elite",
+    price: "34 900",
+    period: "мес",
+    features: ["Всё из Premium", "Безлимитные персональные тренировки", "Приоритетное бронирование", "Личный менеджер", "Гостевые визиты (4/мес)", "VIP-раздевалка"],
+    highlight: false,
+  },
+];
+
+const REVIEWS = [
+  { name: "Дмитрий Р.", role: "Предприниматель", rating: 5, text: "APEX — это не просто фитнес-клуб, это образ жизни. За 8 месяцев я не только привёл себя в форму, но и нашёл команду единомышленников. Уровень сервиса соответствует самым высоким стандартам.", avatar: "ДР" },
+  { name: "Мария К.", role: "Топ-менеджер", rating: 5, text: "Наконец-то клуб, где каждая деталь продумана. Тренеры — настоящие профессионалы, оборудование всегда в идеальном состоянии. Мои результаты превзошли все ожидания.", avatar: "МК" },
+  { name: "Андрей Т.", role: "Архитектор", rating: 5, text: "Приходил скептически настроенным — уходил убеждённым фанатом. Персональная программа от Александра изменила моё тело и самоощущение за 3 месяца. Рекомендую без оговорок.", avatar: "АТ" },
+  { name: "Светлана М.", role: "Врач", rating: 5, text: "Как врач особенно ценю подход к здоровью. Реабилитационная программа помогла восстановиться после травмы быстрее, чем ожидалось. Профессионализм на каждом уровне.", avatar: "СМ" },
+  { name: "Виктор Н.", role: "Финансист", rating: 5, text: "Elite-членство полностью оправдывает себя. Персональный менеджер, VIP-раздевалка, гибкий график — это всё, что нужно занятому человеку для поддержания формы.", avatar: "ВН" },
+  { name: "Ольга Б.", role: "Дизайнер", rating: 5, text: "Атмосфера APEX вдохновляет. Красивый интерьер, приятная музыка, мотивированные люди вокруг. Каждая тренировка — это ритуал заботы о себе.", avatar: "ОБ" },
+];
+
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.12 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return { ref, visible };
+}
+
+function RevealSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, visible } = useScrollReveal();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(40px)",
+        transition: `opacity 0.9s ease ${delay}ms, transform 0.9s ease ${delay}ms`,
+      }}
+    >
+      {children}
     </div>
   );
-};
+}
 
-export default Index;
+export default function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeReview, setActiveReview] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(() => setActiveReview(p => (p + 1) % REVIEWS.length), 4500);
+    return () => clearInterval(t);
+  }, []);
+
+  const scrollTo = (href: string) => {
+    setMenuOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <div className="bg-obsidian text-white font-montserrat overflow-x-hidden">
+
+      {/* NAV */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-obsidian/95 backdrop-blur-md border-b border-white/5" : ""}`}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
+          <div className="font-cormorant text-2xl font-bold tracking-widest">
+            <span className="text-white">APEX</span>
+            <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-10">
+            {NAV_LINKS.map(link => (
+              <button
+                key={link.href}
+                onClick={() => scrollTo(link.href)}
+                className="text-xs tracking-[0.2em] uppercase text-white/60 hover:text-gold transition-colors duration-300 font-light"
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => scrollTo("#contacts")}
+            className="hidden lg:block border border-gold/50 text-gold text-xs tracking-[0.2em] uppercase px-6 py-3 hover:bg-gold hover:text-obsidian transition-all duration-300 font-medium"
+          >
+            Вступить
+          </button>
+
+          <button className="lg:hidden text-white/70 hover:text-white" onClick={() => setMenuOpen(!menuOpen)}>
+            <Icon name={menuOpen ? "X" : "Menu"} size={24} />
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="lg:hidden bg-obsidian/98 backdrop-blur-xl border-t border-white/5 px-6 py-8 space-y-6">
+            {NAV_LINKS.map(link => (
+              <button
+                key={link.href}
+                onClick={() => scrollTo(link.href)}
+                className="block w-full text-left text-sm tracking-[0.2em] uppercase text-white/60 hover:text-gold transition-colors font-light py-1"
+              >
+                {link.label}
+              </button>
+            ))}
+            <button
+              onClick={() => scrollTo("#contacts")}
+              className="block w-full border border-gold/50 text-gold text-xs tracking-[0.2em] uppercase px-6 py-4 hover:bg-gold hover:text-obsidian transition-all duration-300 font-medium mt-4"
+            >
+              Вступить в клуб
+            </button>
+          </div>
+        )}
+      </nav>
+
+      {/* HERO */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={HERO_IMAGE}
+            alt="APEX FITNESS"
+            className="w-full h-full object-cover"
+            style={{ animation: "subtle-zoom 20s ease-in-out infinite alternate" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-obsidian/70 via-obsidian/50 to-obsidian" />
+          <div className="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-transparent to-obsidian/30" />
+        </div>
+
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-20 w-full">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-4 mb-8" style={{ animation: "fade-up 0.8s ease 0.2s both" }}>
+              <div className="w-12 h-px bg-gold/60" />
+              <span className="text-gold/80 text-xs tracking-[0.4em] uppercase font-light">Премиум Фитнес Клуб</span>
+            </div>
+
+            <h1
+              className="font-cormorant font-light leading-none mb-8"
+              style={{ fontSize: "clamp(4rem, 10vw, 8rem)", animation: "fade-up 0.9s ease 0.4s both" }}
+            >
+              Превзойди
+              <br />
+              <em className="text-gold not-italic">вершину</em>
+              <br />
+              себя
+            </h1>
+
+            <p
+              className="text-white/50 text-sm tracking-widest uppercase font-light max-w-md mb-12 leading-loose"
+              style={{ animation: "fade-up 0.9s ease 0.6s both" }}
+            >
+              Элитный фитнес-клуб для тех, кто ценит результат, комфорт и безупречный сервис
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4" style={{ animation: "fade-up 0.9s ease 0.8s both" }}>
+              <button
+                onClick={() => scrollTo("#pricing")}
+                className="bg-gold text-obsidian text-xs tracking-[0.3em] uppercase px-10 py-5 font-semibold hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_40px_rgba(201,168,76,0.4)]"
+              >
+                Выбрать план
+              </button>
+              <button
+                onClick={() => scrollTo("#about")}
+                className="border border-white/20 text-white/70 text-xs tracking-[0.3em] uppercase px-10 py-5 font-light hover:border-gold/40 hover:text-white transition-all duration-300"
+              >
+                О клубе
+              </button>
+            </div>
+          </div>
+
+          <div
+            className="grid grid-cols-3 gap-8 mt-24 max-w-xl"
+            style={{ animation: "fade-up 0.9s ease 1s both" }}
+          >
+            {[
+              { num: "2 500+", label: "Членов клуба" },
+              { num: "15", label: "Тренеров" },
+              { num: "8", label: "Лет на рынке" },
+            ].map(s => (
+              <div key={s.label} className="text-center">
+                <div className="font-cormorant text-3xl font-light text-gold">{s.num}</div>
+                <div className="text-white/40 text-[10px] tracking-widest uppercase mt-1">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+          <div className="w-px h-12 bg-gradient-to-b from-gold/40 to-transparent" />
+          <Icon name="ChevronDown" size={16} className="text-gold/40" />
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="py-32 px-6 lg:px-12 relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold/3 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <RevealSection>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">О клубе</span>
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light leading-tight mb-8">
+                Философия
+                <br />
+                <em className="text-gold">превосходства</em>
+              </h2>
+              <p className="text-white/50 leading-relaxed text-sm mb-6 font-light">
+                APEX FITNESS — это не просто спортивный зал. Это пространство, где высокие стандарты встречаются с индивидуальным подходом. Мы создаём среду, в которой каждый участник раскрывает свой максимальный потенциал.
+              </p>
+              <p className="text-white/40 leading-relaxed text-sm mb-10 font-light">
+                Наша философия основана на трёх принципах: научный подход к тренировкам, персональное внимание к каждому члену клуба и атмосфера, вдохновляющая на результат.
+              </p>
+              <div className="grid grid-cols-2 gap-6">
+                {[
+                  { icon: "Shield", label: "Сертифицированные тренеры" },
+                  { icon: "Award", label: "Премиум оборудование" },
+                  { icon: "Clock", label: "Работаем 24/7" },
+                  { icon: "Users", label: "Сообщество лидеров" },
+                ].map(item => (
+                  <div key={item.label} className="flex items-center gap-3 text-white/50">
+                    <div className="w-8 h-8 border border-gold/20 flex items-center justify-center flex-shrink-0">
+                      <Icon name={item.icon as any} size={14} className="text-gold" />
+                    </div>
+                    <span className="text-xs font-light tracking-wide">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </RevealSection>
+
+            <RevealSection delay={200}>
+              <div className="relative">
+                <div className="aspect-[3/4] bg-obsidian-mid overflow-hidden relative">
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #141414 100%)" }} />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
+                    <div className="text-gold font-cormorant text-8xl font-light opacity-20">A</div>
+                    <div className="mt-8 space-y-4 w-full">
+                      {["Силовая зона 800м²", "Кардио-зал", "SPA-комплекс", "Бассейн 25м", "Зал единоборств"].map((item, i) => (
+                        <div key={item} className="flex items-center gap-4 group cursor-default">
+                          <div className="text-gold/40 font-cormorant text-lg">{String(i + 1).padStart(2, "0")}</div>
+                          <div className="flex-1 h-px bg-white/10 group-hover:bg-gold/30 transition-colors" />
+                          <div className="text-white/40 text-xs tracking-wider group-hover:text-white/70 transition-colors font-light">{item}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-gold/20" />
+                <div className="absolute -top-4 -left-4 w-20 h-20 border border-gold/10" />
+              </div>
+            </RevealSection>
+          </div>
+        </div>
+      </section>
+
+      {/* TRAINING */}
+      <section id="training" className="py-32 px-6 lg:px-12 bg-obsidian-light relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201,168,76,0.3) 80px, rgba(201,168,76,0.3) 81px), repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201,168,76,0.3) 80px, rgba(201,168,76,0.3) 81px)" }} />
+        <div className="max-w-7xl mx-auto relative">
+          <RevealSection>
+            <div className="text-center mb-20">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">Программы</span>
+                <div className="w-8 h-px bg-gold/60" />
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light">
+                Тренировки под <em className="text-gold">ваш ритм</em>
+              </h2>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TRAININGS.map((t, i) => (
+              <RevealSection key={t.title} delay={i * 80}>
+                <div className="group p-8 border border-white/5 hover:border-gold/20 transition-all duration-500 bg-obsidian/40 hover:bg-obsidian/80 cursor-default relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold/0 to-gold/3 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative">
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="w-12 h-12 border border-gold/20 flex items-center justify-center group-hover:border-gold/50 transition-colors">
+                        <Icon name={t.icon as any} size={20} className="text-gold/70 group-hover:text-gold transition-colors" />
+                      </div>
+                      <span className="text-[10px] tracking-[0.2em] uppercase text-gold/40 border border-gold/10 px-3 py-1 font-light">{t.tag}</span>
+                    </div>
+                    <h3 className="font-cormorant text-2xl font-light mb-3 group-hover:text-gold transition-colors duration-300">{t.title}</h3>
+                    <p className="text-white/40 text-xs leading-relaxed font-light">{t.desc}</p>
+                  </div>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TRAINERS */}
+      <section id="trainers" className="py-32 px-6 lg:px-12 relative">
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+        <div className="max-w-7xl mx-auto">
+          <RevealSection>
+            <div className="text-center mb-20">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">Команда</span>
+                <div className="w-8 h-px bg-gold/60" />
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light">
+                Ваши <em className="text-gold">наставники</em>
+              </h2>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {TRAINERS.map((trainer, i) => (
+              <RevealSection key={trainer.name} delay={i * 100}>
+                <div className="group cursor-default">
+                  <div className="aspect-[3/4] bg-obsidian-mid relative overflow-hidden mb-6">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-24 h-24 rounded-full bg-obsidian-soft border border-gold/20 flex items-center justify-center group-hover:border-gold/50 transition-all duration-500">
+                        <span className="font-cormorant text-2xl text-gold/70 group-hover:text-gold transition-colors">{trainer.initials}</span>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-obsidian via-obsidian/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="text-gold text-xs tracking-widest uppercase font-light">{trainer.awards}</div>
+                    </div>
+                    <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/15 transition-all duration-500" />
+                  </div>
+                  <h3 className="font-cormorant text-xl font-light mb-1 group-hover:text-gold transition-colors">{trainer.name}</h3>
+                  <p className="text-white/40 text-xs font-light mb-2">{trainer.role}</p>
+                  <p className="text-gold/50 text-[10px] tracking-widest uppercase">{trainer.exp}</p>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="pricing" className="py-32 px-6 lg:px-12 bg-obsidian-light relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <RevealSection>
+            <div className="text-center mb-20">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">Членство</span>
+                <div className="w-8 h-px bg-gold/60" />
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light">
+                Инвестиция в <em className="text-gold">себя</em>
+              </h2>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {PLANS.map((plan, i) => (
+              <RevealSection key={plan.name} delay={i * 100}>
+                <div className={`relative p-10 border transition-all duration-500 ${plan.highlight ? "border-gold/40 bg-obsidian" : "border-white/5 bg-obsidian/40 hover:border-white/10"}`}>
+                  {plan.highlight && (
+                    <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+                  )}
+                  {plan.highlight && (
+                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <span className="bg-gold text-obsidian text-[10px] tracking-[0.3em] uppercase px-4 py-1.5 font-semibold">Популярный</span>
+                    </div>
+                  )}
+                  <div className="mb-8">
+                    <div className={`text-xs tracking-[0.3em] uppercase mb-4 font-light ${plan.highlight ? "text-gold" : "text-white/30"}`}>{plan.name}</div>
+                    <div className="flex items-end gap-2">
+                      <span className="font-cormorant text-5xl font-light text-white">{plan.price}</span>
+                      <span className="text-white/30 text-sm mb-2 font-light">₽/{plan.period}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-4 mb-10">
+                    {plan.features.map(f => (
+                      <div key={f} className="flex items-start gap-3">
+                        <Icon name="Check" size={14} className={`mt-0.5 flex-shrink-0 ${plan.highlight ? "text-gold" : "text-white/30"}`} />
+                        <span className={`text-xs font-light ${plan.highlight ? "text-white/70" : "text-white/40"}`}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <button className={`w-full text-xs tracking-[0.25em] uppercase py-4 font-medium transition-all duration-300 ${plan.highlight ? "bg-gold text-obsidian hover:bg-gold-light hover:shadow-[0_0_30px_rgba(201,168,76,0.4)]" : "border border-white/10 text-white/50 hover:border-gold/30 hover:text-white/80"}`}>
+                    Выбрать план
+                  </button>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* REVIEWS */}
+      <section id="reviews" className="py-32 px-6 lg:px-12 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian-light to-obsidian" />
+        <div className="max-w-7xl mx-auto relative">
+          <RevealSection>
+            <div className="text-center mb-20">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">Отзывы</span>
+                <div className="w-8 h-px bg-gold/60" />
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light">
+                Говорят наши <em className="text-gold">члены клуба</em>
+              </h2>
+            </div>
+          </RevealSection>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {REVIEWS.map((review, i) => (
+              <RevealSection key={review.name} delay={i * 80}>
+                <div className={`p-8 border transition-all duration-700 ${activeReview === i ? "border-gold/25 bg-obsidian-soft" : "border-white/5 bg-obsidian/30"}`}>
+                  <div className="flex mb-4">
+                    {Array.from({ length: review.rating }).map((_, j) => (
+                      <Icon key={j} name="Star" size={12} className="text-gold" />
+                    ))}
+                  </div>
+                  <p className="text-white/50 leading-relaxed mb-8 italic font-cormorant text-base">"{review.text}"</p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-obsidian-soft border border-gold/20 flex items-center justify-center flex-shrink-0">
+                      <span className="font-cormorant text-sm text-gold/70">{review.avatar}</span>
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-white/80">{review.name}</div>
+                      <div className="text-xs text-white/30 font-light">{review.role}</div>
+                    </div>
+                  </div>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+
+          <RevealSection delay={400}>
+            <div className="flex justify-center gap-2 mt-10">
+              {REVIEWS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveReview(i)}
+                  className={`transition-all duration-300 ${activeReview === i ? "w-8 h-1 bg-gold" : "w-2 h-1 bg-white/20 hover:bg-white/40"}`}
+                />
+              ))}
+            </div>
+          </RevealSection>
+        </div>
+      </section>
+
+      {/* CONTACTS */}
+      <section id="contacts" className="py-32 px-6 lg:px-12 bg-obsidian-light relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20">
+            <RevealSection>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-8 h-px bg-gold/60" />
+                <span className="text-gold/70 text-xs tracking-[0.4em] uppercase font-light">Контакты</span>
+              </div>
+              <h2 className="font-cormorant text-5xl lg:text-6xl font-light mb-8">
+                Начните
+                <br />
+                <em className="text-gold">сегодня</em>
+              </h2>
+              <p className="text-white/40 text-sm font-light leading-relaxed mb-12">
+                Оставьте заявку, и наш менеджер свяжется с вами в течение часа, чтобы подобрать оптимальную программу и ответить на все вопросы.
+              </p>
+
+              <div className="space-y-6">
+                {[
+                  { icon: "MapPin", label: "Адрес", value: "Москва, ул. Тверская, 1, БЦ «Гранд»" },
+                  { icon: "Phone", label: "Телефон", value: "+7 (495) 000-00-00" },
+                  { icon: "Mail", label: "Email", value: "hello@apexfitness.ru" },
+                  { icon: "Clock", label: "Режим работы", value: "Круглосуточно, 7 дней в неделю" },
+                ].map(item => (
+                  <div key={item.label} className="flex items-start gap-4">
+                    <div className="w-10 h-10 border border-gold/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Icon name={item.icon as any} size={14} className="text-gold" />
+                    </div>
+                    <div>
+                      <div className="text-white/30 text-[10px] tracking-widest uppercase mb-1 font-light">{item.label}</div>
+                      <div className="text-white/70 text-sm font-light">{item.value}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </RevealSection>
+
+            <RevealSection delay={200}>
+              <div className="bg-obsidian border border-white/5 p-10">
+                <h3 className="font-cormorant text-2xl font-light mb-8 text-white">Записаться на пробное занятие</h3>
+                <div className="space-y-5">
+                  <div>
+                    <label className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-light block mb-2">Имя</label>
+                    <input
+                      type="text"
+                      placeholder="Ваше имя"
+                      className="w-full bg-obsidian-mid border border-white/10 px-4 py-4 text-sm text-white/70 placeholder-white/20 focus:outline-none focus:border-gold/40 transition-colors font-light"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-light block mb-2">Телефон</label>
+                    <input
+                      type="tel"
+                      placeholder="+7 (___) ___-__-__"
+                      className="w-full bg-obsidian-mid border border-white/10 px-4 py-4 text-sm text-white/70 placeholder-white/20 focus:outline-none focus:border-gold/40 transition-colors font-light"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-light block mb-2">Цель</label>
+                    <select className="w-full bg-obsidian-mid border border-white/10 px-4 py-4 text-sm text-white/40 focus:outline-none focus:border-gold/40 transition-colors font-light appearance-none">
+                      <option value="">Выберите цель тренировок</option>
+                      <option>Снижение веса</option>
+                      <option>Набор мышечной массы</option>
+                      <option>Повышение выносливости</option>
+                      <option>Общее оздоровление</option>
+                      <option>Реабилитация</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-light block mb-2">Комментарий</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Любые пожелания или вопросы..."
+                      className="w-full bg-obsidian-mid border border-white/10 px-4 py-4 text-sm text-white/70 placeholder-white/20 focus:outline-none focus:border-gold/40 transition-colors font-light resize-none"
+                    />
+                  </div>
+                  <button className="w-full bg-gold text-obsidian text-xs tracking-[0.3em] uppercase py-5 font-semibold hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,168,76,0.4)] mt-2">
+                    Отправить заявку
+                  </button>
+                  <p className="text-white/20 text-xs text-center font-light">
+                    Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+                  </p>
+                </div>
+              </div>
+            </RevealSection>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-12 px-6 lg:px-12 border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="font-cormorant text-xl font-light tracking-widest">
+            <span className="text-white">APEX</span>
+            <span className="text-gold ml-2 text-sm font-montserrat font-light tracking-[0.3em] uppercase">FITNESS</span>
+          </div>
+          <div className="text-white/20 text-xs font-light tracking-wider">
+            © 2024 APEX FITNESS. Все права защищены.
+          </div>
+          <div className="flex gap-6">
+            {["Instagram", "Telegram", "VK"].map(s => (
+              <button key={s} className="text-white/20 hover:text-gold text-xs tracking-widest uppercase font-light transition-colors">{s}</button>
+            ))}
+          </div>
+        </div>
+      </footer>
+
+      <style>{`
+        @keyframes fade-up {
+          from { opacity: 0; transform: translateY(40px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes subtle-zoom {
+          from { transform: scale(1.05); }
+          to { transform: scale(1.12); }
+        }
+        select option {
+          background: #1E1E1E;
+          color: rgba(255,255,255,0.7);
+        }
+      `}</style>
+    </div>
+  );
+}
