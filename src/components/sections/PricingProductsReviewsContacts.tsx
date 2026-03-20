@@ -200,7 +200,7 @@ export default function PricingProductsReviewsContacts() {
                   { icon: "MapPin", label: "Адрес", value: "г. Балобаново, ул. Энергетиков 3" },
                   { icon: "Phone", label: "Телефон", value: "+7 (___) ___-__-__" },
                   { icon: "Mail", label: "Email", value: "hello@sistemfit.ru" },
-                  { icon: "Clock", label: "Режим работы", value: "Круглосуточно, 7 дней в неделю" },
+                  { icon: "Clock", label: "Режим работы", value: "Ежедневно с 9:00 до 23:00" },
                 ].map(item => (
                   <div key={item.label} className="flex items-start gap-4">
                     <div className="w-10 h-10 border border-gold/20 flex items-center justify-center flex-shrink-0 mt-0.5">
