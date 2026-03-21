@@ -3,6 +3,7 @@ import { REVIEWS } from "@/components/sections/shared";
 import HeroNav from "@/components/sections/HeroNav";
 import AboutTrainingTrainers from "@/components/sections/AboutTrainingTrainers";
 import PricingProductsReviewsContacts from "@/components/sections/PricingProductsReviewsContacts";
+import OpeningAnnouncement from "@/components/OpeningAnnouncement";
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,6 +29,7 @@ export default function Index() {
 
   return (
     <div className="bg-obsidian text-white font-montserrat overflow-x-hidden">
+      <OpeningAnnouncement />
       <HeroNav
         scrolled={scrolled}
         menuOpen={menuOpen}
